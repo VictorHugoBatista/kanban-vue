@@ -11,8 +11,6 @@ class ProjectsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Project::class, 4)->create([
-            'name' => str_random(10),
-        ]);
+        factory(\App\Project::class, 4)->create();
     }
 }
