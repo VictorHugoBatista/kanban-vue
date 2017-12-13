@@ -11,14 +11,8 @@ class StatusTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Status::class)->create([
-            'name' => 'To do',
-        ]);
-        factory(\App\Status::class)->create([
-            'name' => 'Doing',
-        ]);
-        factory(\App\Status::class)->create([
-            'name' => 'Done',
-        ]);
+        collect(config('seed.statuses'))->each(function ($name) {
+            App\Status::firstOrCreate(['name' => $name]);
+        });
     }
 }
