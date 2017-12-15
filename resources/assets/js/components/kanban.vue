@@ -40,7 +40,7 @@
         },
         methods: {
             updateKanban() {
-                axios.get('/tasks?order_by=status').then(response => {
+                axios.get('/tasks?group_by=status').then(response => {
                     this.kanban = response.data;
                 });
             },

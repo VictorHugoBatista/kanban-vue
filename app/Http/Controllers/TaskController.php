@@ -14,7 +14,7 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        $orderBy = $request->get('order_by');
+        $groupBy = $request->get('group_by');
         $tasksRaw = Task::all();
         $tasks = collect([]);
         foreach ($tasksRaw as $task) {
@@ -26,8 +26,8 @@ class TaskController extends Controller
             ]);
         }
         return response()->json(
-            (isset($orderBy)) ?
-                $tasks->groupBy($orderBy) :
+            (isset($groupBy)) ?
+                $tasks->groupBy($groupBy) :
                 $tasks,
             200
         );
