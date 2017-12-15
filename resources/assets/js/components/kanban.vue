@@ -33,6 +33,7 @@
             dragOptions() {
                 return {
                     group: 'kanban',
+                    ghostClass: 'ghost',
                 };
             }
         },
@@ -48,3 +49,9 @@
         },
     }
 </script>
+
+<style>
+    .ghost {
+        opacity: .5;
+    }
+</style>
