@@ -5,9 +5,11 @@
               <div class="panel panel-default">
                   <div class="panel-heading">{{status}}</div>
                   <div class="panel-body">
-                      <div class="panel" v-for="task in tasks">
-                          {{task.name}}
-                      </div>
+                      <draggable :options="dragOptions">
+                          <div class="panel" v-for="task in tasks">
+                              {{task.name}}
+                          </div>
+                      </draggable>
                   </div>
               </div>
           </div>
@@ -16,11 +18,23 @@
 </template>
 
 <script>
+    import draggable from 'vuedraggable';
+
     export default {
+        components: {
+            draggable,
+        },
         data() {
             return {
                 kanban: {},
             };
+        },
+        computed: {
+            dragOptions() {
+                return {
+                    group: 'kanban',
+                };
+            }
         },
         mounted() {
             this.updateKanban();
