@@ -4,13 +4,11 @@
           <div class="col-md-3" v-for="(tasks, status) in kanban">
               <div class="panel panel-default">
                   <div class="panel-heading">{{status}}</div>
-                  <div class="panel-body">
-                      <draggable v-model="kanban[status]" :options="dragOptions">
-                          <div class="panel" v-for="task in tasks">
-                              {{task.name}}
-                          </div>
-                      </draggable>
-                  </div>
+                  <draggable :id="status" class="panel-body" v-model="kanban[status]" :options="dragOptions"  @end="dragTask">
+                      <div :id="task.id" class="panel" v-for="task in tasks">
+                          {{task.name}}
+                      </div>
+                  </draggable>
               </div>
           </div>
        </div>
@@ -45,6 +43,11 @@
                 axios.get('/tasks?order_by=status').then(response => {
                     this.kanban = response.data;
                 });
+            },
+            dragTask(event) {
+                if (event.from.id !== event.to.id) {
+                    console.log('atualizar status task [path] = ' + event.item.id);
+                }
             },
         },
     }
