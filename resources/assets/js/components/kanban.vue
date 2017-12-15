@@ -5,7 +5,7 @@
               <div class="panel panel-default">
                   <div class="panel-heading">{{status}}</div>
                   <div class="panel-body">
-                      <draggable :options="dragOptions">
+                      <draggable v-model="kanban[status]" :options="dragOptions">
                           <div class="panel" v-for="task in tasks">
                               {{task.name}}
                           </div>
