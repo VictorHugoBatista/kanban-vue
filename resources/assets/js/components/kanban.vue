@@ -46,11 +46,14 @@
             },
             dragTask(event) {
                 if (event.from.id !== event.to.id) {
-                    this.updateTaskStatus(event.item.id, 1);
+                    this.updateTaskStatus(event.item.id, event.to.id);
                 }
             },
             updateTaskStatus(taskId, newStatus) {
-                console.log(taskId, newStatus);
+                axios
+                    .patch('/tasks/' + taskId, {'status_id': newStatus})
+                        .then(response => console.log(response))
+                        .catch(error => console.log(error));
             },
         },
     }
