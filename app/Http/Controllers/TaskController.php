@@ -26,6 +26,9 @@ class TaskController extends Controller
                 'status_id' => $status_id
             ]);
         }
-        return response()->json($task, (0 < $status_id) ? 200 : 400);
+        return response()->json(
+            Task::getFormatedData($task),
+            (0 < $status_id) ? 200 : 400
+        );
     }
 }

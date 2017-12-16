@@ -27,25 +27,33 @@ class Task extends Model
         $tasksRaw = self::all();
         $tasks = [];
         foreach ($tasksRaw as $task) {
-            $taskData = [
-                'id' => $task->id,
-                'name' => $task->name,
-                'project' => $task->project->name,
-                'status' => $task->status->name,
-            ];
             switch ($groupBy) {
                 case 'status':
-                    $tasks[$task->status_id]['status_name'] = $task->status->name;
-                    $tasks[$task->status_id]['tasks'][] = $taskData;
+                    $tasks[$task->status_id]['status_name'] =
+                        $task->status->name;
+                    $tasks[$task->status_id]['tasks'][] =
+                        self::getFormatedData($task);
                     break;
                 case 'project':
-                    $tasks[$task->project_id]['project_name'] = $task->project->name;
-                    $tasks[$task->project_id]['tasks'][] = $taskData;
+                    $tasks[$task->project_id]['project_name'] =
+                        $task->project->name;
+                    $tasks[$task->project_id]['tasks'][] =
+                        self::getFormatedData($task);
                     break;
                 default:
                     $tasks[] = $task;
             }
         }
         return $tasks;
+    }
+
+    public static function getFormatedData(Task $task)
+    {
+       return [
+            'id' => $task->id,
+            'name' => $task->name,
+            'project' => $task->project->name,
+            'status' => $task->status->name,
+        ];
     }
 }
