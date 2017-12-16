@@ -32,4 +32,15 @@ class TaskController extends Controller
             200
         );
     }
+
+    public function update(Request $request, Task $task)
+    {
+        $status_id = (int) $request->get('status_id', 0);
+        if (0 < $status_id) {
+            $task->update([
+                'status_id' => $status_id
+            ]);
+        }
+        return response()->json($task, (0 < $status_id) ? 200 : 400);
+    }
 }
