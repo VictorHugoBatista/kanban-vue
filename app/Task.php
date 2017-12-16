@@ -25,16 +25,27 @@ class Task extends Model
     public static function getGrouped($groupBy = null)
     {
         $tasksRaw = self::all();
-        $tasks = collect([]);
+        $tasks = [];
         foreach ($tasksRaw as $task) {
-            $tasks->push([
+            $taskData = [
                 'id' => $task->id,
                 'name' => $task->name,
                 'project' => $task->project->name,
                 'status' => $task->status->name,
-            ]);
+            ];
+            switch ($groupBy) {
+                case 'status':
+                    $tasks[$task->status_id]['status_name'] = $task->status->name;
+                    $tasks[$task->status_id]['tasks'][] = $taskData;
+                    break;
+                case 'project':
+                    $tasks[$task->project_id]['project_name'] = $task->project->name;
+                    $tasks[$task->project_id]['tasks'][] = $taskData;
+                    break;
+                default:
+                    $tasks[] = $task;
+            }
         }
-        return isset($groupBy) ?
-            $tasks->groupBy($groupBy) : $tasks;
+        return $tasks;
     }
 }
