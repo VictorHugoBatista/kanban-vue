@@ -46,13 +46,15 @@
             },
             dragTask(event) {
                 if (event.from.id !== event.to.id) {
-                    this.updateTaskStatus(event.item.id, event.to.id);
+                    this.updateTaskStatus(event.item.id, event.to.id, data => {
+                        this.kanban[event.to.id].tasks[event.newIndex] = data;
+                    });
                 }
             },
-            updateTaskStatus(taskId, newStatus) {
+            updateTaskStatus(taskId, newStatus, done) {
                 axios
                     .patch('/tasks/' + taskId, {'status_id': newStatus})
-                        .then(response => console.log(response))
+                        .then(response => done(response.data))
                         .catch(error => console.log(error));
             },
         },
