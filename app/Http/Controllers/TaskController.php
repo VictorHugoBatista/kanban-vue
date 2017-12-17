@@ -14,22 +14,21 @@ class TaskController extends Controller
 
     public function index(Request $request)
     {
-        $orderBy = $request->get('order_by');
-        $tasksRaw = Task::all();
-        $tasks = collect([]);
-        foreach ($tasksRaw as $task) {
-            $tasks->push([
-                'id' => $task->id,
-                'name' => $task->name,
-                'project' => $task->project->name,
-                'status' => $task->status->name,
+        $groupBy = $request->get('group_by');
+        return response()->json(Task::getGrouped($groupBy),200);
+    }
+
+    public function update(Request $request, Task $task)
+    {
+        $status_id = (int) $request->get('status_id', 0);
+        if (0 < $status_id) {
+            $task->update([
+                'status_id' => $status_id
             ]);
         }
         return response()->json(
-            (isset($orderBy)) ?
-                $tasks->groupBy($orderBy) :
-                $tasks,
-            200
+            Task::getFormatedData($task),
+            (0 < $status_id) ? 200 : 400
         );
     }
 }

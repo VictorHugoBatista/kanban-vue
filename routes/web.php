@@ -16,10 +16,11 @@ Route::get('/', function () {
 });
 
 // Rotas das páginas
-Route::get('/project/all', ['uses' => 'ProjectPageController@index']);
+Route::get('/project/all', 'ProjectPageController@index');
 
 // Endpoints api
-Route::get('/tasks', ['uses' => 'TaskController@index']);
+Route::get('/tasks', 'TaskController@index');
+Route::patch('/tasks/{task}', 'TaskController@update');
 
 Auth::routes();
 
